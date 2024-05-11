@@ -9,6 +9,15 @@ class EventControllers {
       next(e);
     }
   }
+
+  async addUserToEvent(req, res, next){
+    try {
+      const { fullName, email, birthDate, hearFrom, eventId } = req.body;
+      res.json(await eventService.addUserToEvent(fullName, email, birthDate, hearFrom, eventId));
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = new EventControllers();

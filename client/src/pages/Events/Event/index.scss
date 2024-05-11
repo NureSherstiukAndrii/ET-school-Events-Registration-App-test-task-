@@ -1,0 +1,28 @@
+.event{
+  display: flex;
+  flex-direction: column;
+  width: 330px;
+  gap: 20px;
+  border: 2px solid;
+  padding: 15px;
+  justify-content: space-between;
+
+  &-title{
+    font-size: 18px;
+  }
+
+  &-navigation{
+    display: flex;
+    justify-content: space-between;
+
+    a{
+      color: #03a9f4;
+      text-decoration: none;
+      transition: 0.5s color;
+
+      &:hover{
+        color: #036bf4;
+      }
+    }
+  }
+}
