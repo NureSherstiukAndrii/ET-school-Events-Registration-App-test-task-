@@ -8,12 +8,13 @@ const FormInput = ({
    }) => (
   <Field name={name} validate={validators}>
     {({ input, meta }) => (
-      <div className="input-container">
-        <span>{text}</span>
+      <div className={`input-container ${meta.error && meta.touched ? "error" : ""}`}>
+        <span className="input-container-name">{text}</span>
         <input
           {...input}
           name={name}
           type={type}
+          className="input-container-field"
         />
 
         {meta.error && meta.touched && <span className="error-massage">{meta.error}</span>}

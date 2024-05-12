@@ -1,6 +1,6 @@
 const validateEmail = (value) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return !(emailRegex.test(value)) ? "Некорректный email" : undefined;
+  return !(emailRegex.test(value)) ? "Incorrect email" : undefined;
 };
 
 export default validateEmail;

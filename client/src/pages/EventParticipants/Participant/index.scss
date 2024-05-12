@@ -1,0 +1,13 @@
+.participant{
+  display: flex;
+  flex-direction: column;
+  border: 1px solid lightgray;
+  width: 300px;
+  padding: 10px;
+  gap: 30px;
+  justify-content: space-between;
+
+  span:first-child{
+    font-size: 18px;
+  }
+}

@@ -1,0 +1,46 @@
+.search{
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  align-items: center;
+
+  &-theme{
+    font-size: 20px;
+    position: relative;
+
+    &:before{
+      content: "";
+      background-image: url("../../assets/arrow.png");
+      position: absolute;
+      bottom: -35px;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      height: 24px;
+      width: 24px;
+    }
+  }
+
+  &-field{
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid #03a9f4;
+  }
+}
+
+.empty-list{
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  gap: 20px;
+  align-items: center;
+
+  a{
+    text-decoration: none;
+    color: #03a9f4;
+    transition: 0.3s color;
+
+    &:hover{
+      color: #036bf4;
+    }
+  }
+}

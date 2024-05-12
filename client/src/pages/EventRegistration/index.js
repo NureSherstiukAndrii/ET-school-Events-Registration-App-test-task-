@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import { Form, Field } from "react-final-form";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 import FormInput from "./RegInput";
+import FormCheckBox from "./FormCheckBox";
 import PageWrapper from "../../components/PageWrapper";
 import isSpaced from "./utils/checkSpace";
 import isRequired from "./utils/isRequired";
 import validateEmail from "./utils/validateEmail";
+import isFullName from "./utils/checkFullName";
 import composeValidators from "./utils/composeValidators";
+import { toastSuccess, toastError } from "./utils/toasts";
 
 import './index.scss';
 
@@ -17,38 +20,23 @@ const EventRegistration = () => {
   const [isRegistered, setIsRegistered] = useState(false);
   const { eventId } = useParams();
 
-  const signUp = (values, form) => {
+  const signUp = (values) => {
+    if (Object.keys(values).length < 4) {
+      toastError("Fill all fields");
+      return;
+    }
     axios.post("http://localhost:5000/events/addUserToEvent", {...values, eventId})
       .then((res) => {
         if (res.data.status === 400) {
-          toast.error(res.data.massage, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-
+          toastError(res.data.message)
           return;
         }
 
-        toast.success(res.data, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        toastSuccess(res.data);
         setIsRegistered(true);
       })
       .catch(err => console.log(err))
-  }
+  };
 
   return (
     <PageWrapper paragraph="Event registration">
@@ -58,45 +46,33 @@ const EventRegistration = () => {
           onSubmit={signUp}
           render={({ handleSubmit }) => (
             <form onSubmit={handleSubmit} className="reg-form">
-              <FormInput name="fullName" type="text" text="Full name" validators={composeValidators(isRequired, isSpaced)}/>
-              <FormInput name="email" type="text" text="Email" validators={composeValidators(isRequired, validateEmail)}/>
-              <FormInput name="birthDate" type="date" text="Date of birth" validators={isRequired}/>
-              <div>
+              <FormInput
+                name="fullName"
+                type="text"
+                text="Full name"
+                validators={composeValidators(isRequired, isSpaced, isFullName)}
+              />
+              <FormInput
+                name="email"
+                type="text"
+                text="Email"
+                validators={composeValidators(isRequired, validateEmail)}
+              />
+              <FormInput
+                name="birthDate"
+                type="date"
+                text="Date of birth"
+                validators={isRequired}
+              />
+              <div className="reg-form-labels-container">
                 <label>Where did you hear about this event?</label>
-                <div>
-                  <label>
-                    <Field
-                      name="hearFrom"
-                      component="input"
-                      type="radio"
-                      value="social_media"
-                      validate={isRequired}
-                    />{' '}
-                    Social media
-                  </label>
-                  <label>
-                    <Field
-                      name="hearFrom"
-                      component="input"
-                      type="radio"
-                      value="friends"
-                      validate={isRequired}
-                    />{' '}
-                    Friends
-                  </label>
-                  <label>
-                    <Field
-                      name="hearFrom"
-                      component="input"
-                      type="radio"
-                      value="found_myself"
-                      validate={isRequired}
-                    />{' '}
-                    Found myself
-                  </label>
+                <div className="labels">
+                  <FormCheckBox value="social_media" text="Social media" />
+                  <FormCheckBox value="friends" text="Friends" />
+                  <FormCheckBox value="found_myself" text="Found myself" />
                 </div>
               </div>
-              <button>Sign up</button>
+              <button className="reg-form-btn">Sign up</button>
             </form>
           )}
         />

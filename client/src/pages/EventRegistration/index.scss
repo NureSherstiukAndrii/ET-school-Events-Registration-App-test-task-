@@ -1,6 +1,31 @@
 .reg-form{
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  width: 350px;
+  gap: 35px;
+  width: 400px;
+
+  &-labels-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 18px;
+
+    .labels{
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  &-btn{
+    background-color: #03a9f4;
+    padding: 10px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.5s background-color;
+
+    &:hover{
+      background-color: #036bf4;
+    }
+  }
 }
