@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Form, Field } from "react-final-form";
-import { Link, useParams } from "react-router-dom";
+import { Form } from "react-final-form";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
 
@@ -13,6 +13,8 @@ import validateEmail from "./utils/validateEmail";
 import isFullName from "./utils/checkFullName";
 import composeValidators from "./utils/composeValidators";
 import { toastSuccess, toastError } from "./utils/toasts";
+import BackToEvents from "../../components/BackToEvents";
+import { https } from "../../api/https";
 
 import './index.scss';
 
@@ -22,13 +24,16 @@ const EventRegistration = () => {
 
   const signUp = (values) => {
     if (Object.keys(values).length < 4) {
-      toastError("Fill all fields");
+      toastError("Fill in all the fields");
+
       return;
     }
-    axios.post("http://localhost:5000/events/addUserToEvent", {...values, eventId})
+
+    axios.post(`${https}/addUserToEvent`, {...values, eventId})
       .then((res) => {
         if (res.data.status === 400) {
-          toastError(res.data.message)
+          toastError(res.data.message);
+
           return;
         }
 
@@ -41,7 +46,7 @@ const EventRegistration = () => {
   return (
     <PageWrapper paragraph="Event registration">
       <ToastContainer />
-      {isRegistered ? <Link to="/">Back to events</Link> :
+      {isRegistered ? <BackToEvents /> :
         <Form
           onSubmit={signUp}
           render={({ handleSubmit }) => (
@@ -73,6 +78,7 @@ const EventRegistration = () => {
                 </div>
               </div>
               <button className="reg-form-btn">Sign up</button>
+              <BackToEvents />
             </form>
           )}
         />

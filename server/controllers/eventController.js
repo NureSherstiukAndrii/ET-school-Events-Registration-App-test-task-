@@ -39,6 +39,16 @@ class EventControllers {
       next(e);
     }
   }
+  async getRegistrations(req, res, next){
+    try {
+      const { eventId } = req.params;
+      const registeredToday = await eventService.getRegistrations(eventId);
+      res.json(registeredToday);
+    } catch (e) {
+      next(e);
+    }
+  }
+
 }
 
 module.exports = new EventControllers();

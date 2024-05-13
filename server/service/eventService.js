@@ -6,8 +6,12 @@ class EventService {
   async getAllEvents(offset, limit) {
     try {
       const pool = await sql.connect(dbConfig);
+      const total = await pool.request().query(`SELECT * FROM Events`);
       const eventsQuery = await pool.request().query(`SELECT * FROM Events ORDER BY id OFFSET ${offset} ROWS FETCH NEXT ${limit} ROWS ONLY`);
-      return eventsQuery.recordset;
+      return {
+        total: total.recordset.length,
+        events: eventsQuery.recordset
+      };
     } catch (error) {
       console.error(error);
       throw error;
@@ -62,8 +66,32 @@ class EventService {
       throw error;
     }
   }
+
+  async getRegistrations(eventId) {
+    try {
+      const pool = await sql.connect(dbConfig);
+      const registeredQuery = await pool.request()
+        .query(`
+          WITH DateRange AS (
+              SELECT DATEADD(HOUR, 3, DATEADD(DAY, number, DATEADD(WEEK, -1, CAST(GETDATE() AS DATETIME)))) AS registration_date
+              FROM (VALUES (1), (2), (3), (4), (5), (6), (7)) AS Numbers(number)
+          )
+          SELECT DateRange.registration_date,
+                 COUNT(Event_participant.registration_date) AS registration_count
+          FROM DateRange
+          LEFT JOIN Event_participant ON CAST(Event_participant.registration_date AS DATE) = 
+          CAST(DateRange.registration_date AS DATE) AND Event_participant.event_id = ${eventId}
+          GROUP BY DateRange.registration_date
+          ORDER BY DateRange.registration_date;
+          `);
+
+      return registeredQuery.recordset;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+  
 }
-
-
 
 module.exports = new EventService();

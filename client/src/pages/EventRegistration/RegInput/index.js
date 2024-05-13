@@ -3,9 +3,7 @@ import { Field } from "react-final-form";
 
 import "./index.scss";
 
-const FormInput = ({
-     name, validators, type, text
-   }) => (
+const FormInput = ({ name, validators, type, text }) => (
   <Field name={name} validate={validators}>
     {({ input, meta }) => (
       <div className={`input-container ${meta.error && meta.touched ? "error" : ""}`}>

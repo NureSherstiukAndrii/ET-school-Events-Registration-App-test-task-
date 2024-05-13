@@ -1,0 +1,12 @@
+.back-home{
+  text-decoration: none;
+  background-color: #03a9f4;
+  transition: 0.3s background-color;
+  padding: 15px;
+  border-radius: 20px;
+  text-align: center;
+
+  &:hover{
+    background-color: #036bf4;
+  }
+}

@@ -1,8 +1,10 @@
+require('dotenv').config();
+
 const config = {
-  user: 'andreha24',
-  password: 'Andreyka24!',
-  server: 'andreha244.database.windows.net',
-  database: 'test',
+  user: process.env.USER_DB,
+  password: process.env.PASSWORD_DB,
+  server: process.env.SERVER_DB,
+  database: process.env.DATABASE_NAME,
   options: {
     encrypt: true,
     trustServerCertificate: false

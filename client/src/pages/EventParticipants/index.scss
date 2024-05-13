@@ -20,10 +20,14 @@
     }
   }
 
-  &-field{
+  &-field {
     padding: 10px;
     border-radius: 8px;
-    border: 2px solid #03a9f4;
+
+    &:focus, &:active {
+      outline: none;
+      border: 2px solid #03a9f4 ;
+    }
   }
 }
 
@@ -33,14 +37,4 @@
   font-size: 20px;
   gap: 20px;
   align-items: center;
-
-  a{
-    text-decoration: none;
-    color: #03a9f4;
-    transition: 0.3s color;
-
-    &:hover{
-      color: #036bf4;
-    }
-  }
 }
